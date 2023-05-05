@@ -2,7 +2,7 @@ import os
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
-from commands import create_user, create_task, delete_task, disable_task, enable_task
+from commands import create_user, create_task, delete_task, delete_user, disable_task, display_tasks, display_todays_tasks, enable_task
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -28,10 +28,13 @@ def launch_bot():
     application = ApplicationBuilder().token(TOKEN).build()
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CommandHandler('add_me', create_user))
+    application.add_handler(CommandHandler('rem_me', delete_user))
     application.add_handler(CommandHandler('add_task', create_task))
     application.add_handler(CommandHandler('dis_task', disable_task))
     application.add_handler(CommandHandler('enb_task', enable_task))
     application.add_handler(CommandHandler('del_task', delete_task))
+    application.add_handler(CommandHandler('dis_tasks', display_tasks))
+    application.add_handler(CommandHandler('today', display_todays_tasks))
     logger.info(f'bot successfully created.')
 
     if LOCAL:
